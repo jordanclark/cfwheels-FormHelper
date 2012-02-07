@@ -2,7 +2,7 @@
 
 <cffunction name="init">
 	
-	<cfset this.version = "1.1.5">
+	<cfset this.version = "1.1.5,1.1.7">
 	
 	<cfreturn this>
 </cffunction>
@@ -63,9 +63,14 @@
 		arguments.args.appendToLabel &= '<div class="#loc.className#">';
 		arguments.args.prepend &= '<div class="input">';
 		
-		for( loc.error in arguments.args.errors ) {
-			arguments.args.append &= '<span class="help-inline">#loc.error.message#</span>';
+		if( arrayLen( arguments.args.errors ) ) {
+			for( loc.error in arguments.args.errors ) {
+				arguments.args.append &= '<span class="help-inline">#loc.error.message#</span>';
+			}
+		} else if( structKeyExists( arguments.args, "help" ) ) {
+			arguments.args.append &= '<span class="help-inline">#arguments.args.help#</span>';
 		}
+		structDelete( arguments.args, "help" );
 		
 		arguments.args.append &= '</div></div>';
 	</cfscript>
